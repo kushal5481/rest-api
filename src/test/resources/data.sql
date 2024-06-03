@@ -1,0 +1,2 @@
+INSERT INTO employee (id, first_name, last_name, email) VALUES (1003, 'John', 'Doe', 'john.doe@example.com');
+INSERT INTO employee (id, first_name, last_name, email) VALUES (1004, 'Jane', 'Doe', 'jane.doe@example.com');
