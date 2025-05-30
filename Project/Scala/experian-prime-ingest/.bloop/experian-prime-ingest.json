@@ -1,0 +1,143 @@
+{
+    "version": "1.4.0",
+    "project": {
+        "name": "experian-prime-ingest",
+        "directory": "J:\\Projects\\experian-prime-ingest",
+        "workspaceDir": "J:\\Projects\\experian-prime-ingest",
+        "sources": [
+            
+        ],
+        "dependencies": [
+            
+        ],
+        "classpath": [
+            "J:\\Projects\\experian-prime-ingest\\target\\classes",
+            "C:\\Users\\C20348E\\.m2\\repository\\org\\scala-lang\\scala-library\\2.12.18\\scala-library-2.12.18.jar"
+        ],
+        "out": "J:\\Projects\\experian-prime-ingest\\target",
+        "classesDir": "J:\\Projects\\experian-prime-ingest\\target\\classes",
+        "resources": [
+            "J:\\Projects\\experian-prime-ingest\\src\\main\\resources"
+        ],
+        "scala": {
+            "organization": "org.scala-lang",
+            "name": "scala-compiler",
+            "version": "2.12.18",
+            "options": [
+                
+            ],
+            "jars": [
+                "C:\\Users\\C20348E\\.m2\\repository\\org\\scala-lang\\scala-compiler\\2.12.18\\scala-compiler-2.12.18.jar",
+                "C:\\Users\\C20348E\\.m2\\repository\\org\\scala-lang\\modules\\scala-xml_2.12\\2.1.0\\scala-xml_2.12-2.1.0.jar",
+                "C:\\Users\\C20348E\\.m2\\repository\\org\\scala-lang\\scala-library\\2.12.18\\scala-library-2.12.18.jar",
+                "C:\\Users\\C20348E\\.m2\\repository\\jline\\jline\\2.14.6\\jline-2.14.6.jar",
+                "C:\\Users\\C20348E\\.m2\\repository\\org\\scala-lang\\scala-reflect\\2.12.18\\scala-reflect-2.12.18.jar"
+            ],
+            "setup": {
+                "order": "java->scala",
+                "addLibraryToBootClasspath": true,
+                "addCompilerToClasspath": false,
+                "addExtraJarsToClasspath": false,
+                "manageBootClasspath": true,
+                "filterLibraryFromClasspath": true
+            }
+        },
+        "java": {
+            "options": [
+                "-g",
+                "-encoding",
+                "UTF-8"
+            ]
+        },
+        "test": {
+            "frameworks": [
+                {
+                    "names": [
+                        "com.novocode.junit.JUnitFramework"
+                    ]
+                },
+                {
+                    "names": [
+                        "org.scalatest.tools.Framework",
+                        "org.scalatest.tools.ScalaTestFramework"
+                    ]
+                },
+                {
+                    "names": [
+                        "org.scalacheck.ScalaCheckFramework"
+                    ]
+                },
+                {
+                    "names": [
+                        "org.specs.runner.SpecsFramework",
+                        "org.specs2.runner.Specs2Framework",
+                        "org.specs2.runner.SpecsFramework"
+                    ]
+                },
+                {
+                    "names": [
+                        "utest.runner.Framework"
+                    ]
+                },
+                {
+                    "names": [
+                        "munit.Framework"
+                    ]
+                }
+            ],
+            "options": {
+                "excludes": [
+                    
+                ],
+                "arguments": [
+                    {
+                        "args": [
+                            "-v",
+                            "-a"
+                        ],
+                        "framework": {
+                            "names": [
+                                "com.novocode.junit.JUnitFramework"
+                            ]
+                        }
+                    }
+                ]
+            }
+        },
+        "platform": {
+            "name": "jvm",
+            "config": {
+                "home": "C:\\Users\\C20348E\\AppData\\Roaming\\zulu17.52.17-ca-jdk17.0.12-win_x64\\zulu17.52.17-ca-jdk17.0.12-win_x64",
+                "options": [
+                    
+                ]
+            },
+            "mainClass": [
+                
+            ]
+        },
+        "resolution": {
+            "modules": [
+                {
+                    "organization": "org.scala-lang",
+                    "name": "scala-library",
+                    "version": "2.12.18",
+                    "artifacts": [
+                        {
+                            "name": "scala-library",
+                            "path": "C:\\Users\\C20348E\\.m2\\repository\\org\\scala-lang\\scala-library\\2.12.18\\scala-library-2.12.18.jar"
+                        },
+                        {
+                            "name": "scala-library",
+                            "classifier": "sources",
+                            "path": "C:\\Users\\C20348E\\.m2\\repository\\org\\scala-lang\\scala-library\\2.12.18\\scala-library-2.12.18-sources.jar"
+                        }
+                    ]
+                }
+            ]
+        },
+        "tags": [
+            "library"
+        ]
+    }
+}

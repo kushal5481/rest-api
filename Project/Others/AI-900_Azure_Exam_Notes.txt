@@ -1,0 +1,51 @@
+Preparation for Exam AI-900: Microsoft Azure AI Fundamentals ::
+
+Skills at a glance:
+Describe Artificial Intelligence workloads and considerations (15–20%)
+Describe fundamental principles of machine learning on Azure (20–25%)
+Describe features of computer vision workloads on Azure (15–20%)
+Describe features of Natural Language Processing (NLP) workloads on Azure (15–20%)
+Describe features of generative AI workloads on Azure (15–20%)
+=========================================================================================
+features of common AI workloads:
+content moderation and personalization workloads
+computer vision workloads
+natural language processing workloads
+knowledge mining workloads
+document intelligence workloads
+generative AI workloads
+=========================================================================================
+principles for responsible AI:
+fairness
+reliability and safety
+privacy and security
+inclusiveness
+transparency
+accountability
+=========================================================================================
+common machine learning techniques:
+regression
+classification
+clustering
+features of deep learning techniques
+=========================================================================================
+common types of computer vision solution:
+image classification
+object detection
+optical character recognition
+facial detection and facial analysis
+=========================================================================================
+features of common NLP Workload Scenarios:
+key phrase extraction
+entity recognition
+sentiment analysis
+language modeling
+speech recognition and synthesis
+translation
+=========================================================================================
+features of generative AI solutions:
+generative AI models
+common scenarios for generative AI
+responsible AI considerations for generative AI
+=========================================================================================
+57:42

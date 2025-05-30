@@ -1,0 +1,342 @@
+AI - 9000 Azure -exam prep
+
+Azure cognitive services  - pre trained model
+------------------------
+
+get intelligence from text, images, audio, video
+
+
+Without Needing data scientists- build simple 
+-------------------------------
+models
+
+limited/no code experience
+
+example: custom vision
+
+example azure machine leaning
+automated machine learning
+
+
+Using data scientists and team - Build complex 
+-----------------------------
+model
+
+build your own ml module from zero(code-experienced)
+
+example: using azure machine learning
+
+
+strong ai and narrow ai machine learning and traditional programming
+
+azure cognitive services -> pre-trained model
+
+azure machine learning(automated machine learning), custom vision ->                 
+
+building simple model without needing data scientists or AI/ML skills
+
+complex ml models -> azure machine learning
+
+
+
+workload type
+
+content moderation and personalization
+---------------------------------------
+
+filtering inappropriate content on social media
+recommending products based on user history,
+adjusting website content based on user prefernces
+
+computer vision workloads
+-----------------------------
+
+facial recognition system, self driving car ,object detection in surveillance videos, augmented reality app
+
+-------------------------------
+
+natural language processing workloads
+-----------------------------------
+
+lang translation services
+voice recognition
+response system
+
+sentiment analysis in customer feed back
+----------------------------------
+knowledge mining workload
+------------------------------------
+
+analyzing large datasets to uncover trends.
+extracting useful information from unstructured data
+mining customar data fpr insigts
+predictive analytics in business intelligence
+
+document intelligence workloads
+--------------------------------------------
+
+automated invoice processing. resume parsing for requirement, document classification and archiving, data extreaction from legal document
+
+
+generative AI Workloads
+---------------------------
+
+creating new image or test based on learned patterns,
+AI generated music or art automated content generation for social media
+
+
+
+
+
+-----------------------------------
+Pre - trained model- cognitive services
+---------------------------------
+this services bring ai with reach of every developer
+
+AI without building custom models
+
+does not need machine-learning expertise
+
+exposed as API
+
+------------------------------------------
+
+HELP PROGRAMS see , hear , speak , search understand like humans
+
+	Get intelligence from:
+images/videos: computer vision, face api. form recognizer
+
+text: text analytivd, translator text, trxt to speech api
+
+audio speech to text API. LUIS -Lang understanding intelligent service- LUIS
+
+Other
+conversations
+anamaly detector services
+
+
+cognitive service renamamed azure ai service search
+
+custom vision is renamed to azure ai vision
+
+face service is renamed to azure ai face detection
+
+form recognizer is now azure ai document intelligence
+
+speech service is now azure ai speech service
+
+translator service is now azure ai translator service
+-----------------------------
+
+
+
+
+cognitive service azure ai search
+-----------------------------
+
+exploring vision related apis
+
+vision- computer vision
+
+analyze and describe images
+read text in imagery
+
+read handwriting in imagery
+recognize celebrities and landmarks
+
+identifiy objects and detecting objects and tags 
+
+
+videos as input - identifying appears of the video
+
+sam George
+
+key topic of videos
+
+sentiment
+
+sentiment changes throughout the videos 
+
+key annotations
+
+transciptions
+
+importent some more API
+----------------------------------------
+
+face api -
+custom vision
+----------------------------------------
+
+exploring vision - some technology
+
+image analysis - extract tags from images
+
+image classification - classify image into different groups
+
+object detection - identify object in image
+
+class of object, confident level, coordinates of bouding box
+goes deepper than image classification
+
+
+face detection: detect human faces 
+face detection and analysis: security, tag friends on facebook, identity validation
+
+optical character recognition(OCR)- LICENCE PLATES, INVOICE
+----------------------------------------------------------------
+Computer vision api
+----------------
+analisye image - can you describe image , can you categorize the image
+what is there in the image -> object/tagd/faces/celebrities/monuments with box co-ordinates
+type of images-> clip art/line drawing
+color scheme is used in image
+image have mature content
+--------------------------------------------------------------------
+describe image -> description and caption detect object -> performing object detection on the specified image
+
+
+get area of interest -> impoertent area in the image
+get read result
+get thumbnail -> generate a thumbnail image
+list domain specific models
+OCR
+Read
+recognize domain specific content -> identify celebrities, landmarks
+tag image-> generates a list of words or tags relevant to images
+-----------------------------------------------------------------
+simple ocr ( detects text in an image)
+quick extraction of  small amounts of text( immediate results)
+
+results: line > words (each with bouding box coordinates)
+
+
+--------------------------------------------------------------------------
+
+read: perform OCR on complex documents
+
+optimized for text-heavy images or multi-page documents or documents with multiple languages
+
+executes asynchronously
+--------------------------
+
+additional call to get the result
+
+results: pages>lines>words(each with bouding box coordinates)
+
+-----------------------------------------------------
+https://portal.vision.cognitive.azure.com/demo/face-detection
+
+----------------------------------------------------------
+Getting started with Face API
+----------------------------------------------------------
+
+advanced face detection
+age , emotions, glasses. hair, makeup
+
+detect human faces, find similar faces, match face with a group
+
+accuracy need to improve for face identification
+
+quality of images
+variety of images
+
+-----------------------------------------------------------------
+
+important concepts:
+-----------------------------------------------------------------
+
+facelist( upto 1k faces) & largefacelist(upto 1m faces)
+
+
+Face API
+--------
+Detect 
+find similar
+group
+identify
+verify
+-----------------------------------------
+form recognizer is now document inteleigent
+
+operations over odf or images
+
+analyze ID doc analyze invoice
+, analuze receipt
+
+custom form: design and extract key value pairs, tables and semantic values from custom documents- pdf or images
+
+
+------------------------------
+scenario and solution
+------------------------------
+divide candidate faces (3-1000) into groups based on face similarity -- group
+
+recommend face api find closest matches of the specific query person face in a group - identify
+
+face api operation: do two faces belongs to same person - verify
+
+face belongs to the specific person or not -> verify
+
+language: extract meaning from unstructured text
+
+text analytics-> detect sentiment key phrases and named entites
+
+translator -> translate to/from 90 languages
+
+speech: integrate speech into apps and services
+
+speech service: speech to text , text to
+speech, translation and speaker recognition
+
+build conversation:
+QnA maker conversational question and answer
+LUIS-> language understanding intelligent service
+
+
+
+
+------------------------------------------------
+text analysis
+----------------------------------------------
+a text-minig AI service that uncovers insights such as sentiment analysis, entities, relations and key phrases in unstructured text
+--------------------------
+
+sentiment analysis, key phrase extraction and language detection
+
+operations:
+detect language
+
+language name
+
+entinites containing personal information: return a list of entities with personal information(SSN , Bank account etc) in the document
+
+key phrases: returns a list of string denoting the key phrases
+
+named entity recognition: list of general named enities in a given document
+
+
+sentiment:details sentiment analysis
+
+
+----------------------------------
+
+translator text API: Text to text translation
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

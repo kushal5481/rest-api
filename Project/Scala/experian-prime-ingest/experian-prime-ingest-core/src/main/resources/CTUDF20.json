@@ -1,0 +1,683 @@
+{
+	"File_Details": [{
+		"File_Start_Point": "TUDF12",
+		"File_End_Point": "TRLR",
+		"custom_Rule": "",
+		"MetricCode": ""
+	}],
+	"Record_Details":[
+		{
+			"Record_Start_Point": "PN03NO1",
+			"Record_End_Point": "ES02**",
+			"custom_Rule": "",
+			"MetricCode": ""
+		}
+	],
+	"Segment_Details": [{
+
+	}],
+	"Field_Details": [
+		{
+			"PN": {
+				"fieldTag": "PN",
+				"IsMandatorySegment": true,
+				"Field_Max_length": "03",
+				"Field_Character_length": "A/N",
+				"fieldTagValues": [
+					"N01"
+				],
+				"MandatorySubFieldTags": [
+					"07",
+					"08"
+				],
+				"Non-MandatorySubFieldTags": [
+					"01",
+					"02",
+					"03",
+					"04",
+					"05"
+				],
+				"NextSegmentName": [
+					"ID"
+				],
+				"SubFieldTags": [
+					{
+						"field_Tag": "01",
+						"Length_type": "V",
+						"Character_type": "P",
+						"Max_length": "26",
+						"is_Mandatory": true
+					},
+					{
+						"field_Tag": "02",
+						"Length_type": "V",
+						"Character_type": "P",
+						"Max_length": "26",
+						"is_Mandatory": false
+					},
+					{
+						"field_Tag": "03",
+						"Length_type": "V",
+						"Character_type": "P",
+						"Max_length": "26",
+						"is_Mandatory": false
+					},
+					{
+						"field_Tag": "04",
+						"Length_type": "V",
+						"Character_type": "P",
+						"Max_length": "26",
+						"is_Mandatory": false
+					},
+					{
+						"field_Tag": "05",
+						"Length_type": "V",
+						"Character_type": "P",
+						"Max_length": "26",
+						"is_Mandatory": false
+					},
+					{
+						"field_Tag": "07",
+						"Length_type": "F",
+						"Character_type": "N",
+						"Max_length": "26",
+						"is_Mandatory": true
+					},
+					{
+						"field_Tag": "08",
+						"Length_type": "F",
+						"Character_type": "N",
+						"Max_length": "01",
+						"is_Mandatory": true
+					}
+				]
+			},
+			"ID": {
+				"fieldTag": "ID",
+				"IsMandatorySegment": false,
+				"Field_Max_length": "03",
+				"Field_Character_length": "A",
+				"fieldTagValues": [
+					"I01-I08"
+				],
+				"MandatorySubFieldTags": [
+					"01",
+					"02"
+				],
+				"Non-MandatorySubFieldTags": [
+					"03",
+					"04"
+				],
+				"NextSegmentName": [
+					"PT"
+				],
+				"SubFieldTags": [
+					{
+						"field_Tag": "01",
+						"Length_type": "F",
+						"Character_type": "A",
+						"Max_length": "02",
+						"is_Mandatory": true
+					},
+					{
+						"field_Tag": "02",
+						"Length_type": "V",
+						"Character_type": "P",
+						"Max_length": "30",
+						"is_Mandatory": true
+					},
+					{
+						"field_Tag": "03",
+						"Length_type": "F",
+						"Character_type": "N",
+						"Max_length": "08",
+						"is_Mandatory": false
+					},
+					{
+						"field_Tag": "04",
+						"Length_type": "F",
+						"Character_type": "N",
+						"Max_length": "08",
+						"is_Mandatory": false
+					}
+				]
+			},
+			"PT": {
+				"fieldTag": "PT",
+				"IsMandatorySegment": true,
+				"Field_Max_length": "03",
+				"Field_Character_length": "N",
+				"fieldTagValues": [
+					"T01-T99"
+				],
+				"MandatorySubFieldTags": [
+					"01",
+					"03"
+				],
+				"Non-MandatorySubFieldTags": [
+					"02"
+				],
+				"NextSegmentName": [
+					"EC",
+					"PA"
+				],
+				"SubFieldTags": [
+					{
+						"field_Tag": "01",
+						"Length_type": "V",
+						"Character_type": "A",
+						"Max_length": "20",
+						"is_Mandatory": true
+					},
+					{
+						"field_Tag": "02",
+						"Length_type": "V",
+						"Character_type": "A/N",
+						"Max_length": "10",
+						"is_Mandatory": false
+					},
+					{
+						"field_Tag": "03",
+						"Length_type": "F",
+						"Character_type": "N",
+						"Max_length": "02",
+						"is_Mandatory": true
+					}
+				]
+			},
+			"EC": {
+				"fieldTag": "EC",
+				"IsMandatorySegment": false,
+				"Field_Max_length": "03",
+				"Field_Character_length": "A",
+				"fieldTagValues": [
+					"C01-C99"
+				],
+				"MandatorySubFieldTags": [],
+				"Non-MandatorySubFieldTags": [
+					"01"
+				],
+				"NextSegmentName": [
+					"PA"
+				],
+				"SubFieldTags": [
+					{
+						"field_Tag": "01",
+						"Length_type": "V",
+						"Character_type": "P",
+						"Max_length": "70",
+						"is_Mandatory": true
+					}
+				]
+			},
+			"PA": {
+				"fieldTag": "PA",
+				"IsMandatorySegment": true,
+				"Field_Max_length": "03",
+				"Field_Character_length": "A/N",
+				"fieldTagValues": [
+					"A01-A05"
+				],
+				"MandatorySubFieldTags": [
+					"01",
+					"06",
+					"07",
+					"08"
+				],
+				"Non-MandatorySubFieldTags": [
+					"02",
+					"03",
+					"04",
+					"05"
+				],
+				"NextSegmentName": [
+					"TL"
+				],
+				"SubFieldTags": [
+					{
+						"field_Tag": "01",
+						"Length_type": "V",
+						"Character_type": "P",
+						"Max_length": "40",
+						"is_Mandatory": true
+					},
+					{
+						"field_Tag": "02",
+						"Length_type": "V",
+						"Character_type": "P",
+						"Max_length": "40",
+						"is_Mandatory": false
+					},
+					{
+						"field_Tag": "03",
+						"Length_type": "V",
+						"Character_type": "P",
+						"Max_length": "40",
+						"is_Mandatory": false
+					},
+					{
+						"field_Tag": "04",
+						"Length_type": "V",
+						"Character_type": "P",
+						"Max_length": "40",
+						"is_Mandatory": false
+					},
+					{
+						"field_Tag": "05",
+						"Length_type": "V",
+						"Character_type": "P",
+						"Max_length": "40",
+						"is_Mandatory": false
+					},
+					{
+						"field_Tag": "06",
+						"Length_type": "F",
+						"Character_type": "N",
+						"Max_length": "02",
+						"is_Mandatory": true
+					},
+					{
+						"field_Tag": "07",
+						"Length_type": "V",
+						"Character_type": "P",
+						"Max_length": "10",
+						"is_Mandatory": true
+					},
+					{
+						"field_Tag": "08",
+						"Length_type": "F",
+						"Character_type": "N",
+						"Max_length": "02",
+						"is_Mandatory": true
+					},
+					{
+						"field_Tag": "09",
+						"Length_type": "F",
+						"Character_type": "N",
+						"Max_length": "02",
+						"is_Mandatory": false
+					}
+				]
+			},
+			"TL":{
+				"fieldTag": "TL",
+				"IsMandatorySegment": true,
+				"Field_Max_length": "04",
+				"Field_Character_length": "A/N",
+				"fieldTagValues": [
+					"T001"
+				],
+				"MandatorySubFieldTags": [
+					"01",
+					"02",
+					"03",
+					"04",
+					"05",
+					"13"
+				],
+				"Non-MandatorySubFieldTags": [
+					"08",
+					"09",
+					"10",
+					"11",
+					"12",
+					"14",
+					"15",
+					"16",
+					"17",
+					"18",
+					"19",
+					"20",
+					"21",
+					"22",
+					"26",
+					"34",
+					"35",
+					"36",
+					"37",
+					"38",
+					"39",
+					"40",
+					"41",
+					"42",
+					"43",
+					"44",
+					"45",
+					"46",
+					"47",
+					"48",
+					"49"
+				],
+				"NextSegmentName": [
+					"TH","ES"
+				],
+				"SubFieldTags": [
+					{
+						"field_Tag": "01",
+						"Length_type": "F",
+						"Character_type": "A/N",
+						"Max_length": "10",
+						"is_Mandatory": true
+					},
+					{
+						"field_Tag": "02",
+						"Length_type": "V",
+						"Character_type": "A/N",
+						"Max_length": "16",
+						"is_Mandatory": true
+					},
+					{
+						"field_Tag": "03",
+						"Length_type": "V",
+						"Character_type": "P",
+						"Max_length": "25",
+						"is_Mandatory": true
+					},
+					{
+						"field_Tag": "04",
+						"Length_type": "F",
+						"Character_type": "N",
+						"Max_length": "02",
+						"is_Mandatory": true
+					},
+					{
+						"field_Tag": "05",
+						"Length_type": "F",
+						"Character_type": "N",
+						"Max_length": "01",
+						"is_Mandatory": true
+					},
+		            {
+						"field_Tag": "08",
+						"Length_type": "F",
+						"Character_type": "N",
+						"Max_length": "08",
+						"is_Mandatory": false
+					},
+					{
+						"field_Tag": "09",
+						"Length_type": "F",
+						"Character_type": "N",
+						"Max_length": "08",
+						"is_Mandatory": false
+					},
+                    {
+						"field_Tag": "10",
+						"Length_type": "F",
+						"Character_type": "N",
+						"Max_length": "08",
+						"is_Mandatory": false
+					},
+                    {
+						"field_Tag": "11",
+						"Length_type": "F",
+						"Character_type": "N",
+						"Max_length": "08",
+						"is_Mandatory": false
+					},
+                    {
+						"field_Tag": "12",
+						"Length_type": "V",
+						"Character_type": "N",
+						"Max_length": "09",
+						"is_Mandatory": false
+					},{
+						"field_Tag": "13",
+                        "Length_type": "V",
+						"Character_type": "N",
+						"Max_length": "10",
+						"is_Mandatory": true
+					},
+                    {
+						"field_Tag": "14",
+                        "Length_type": "V",
+						"Character_type": "N",
+						"Max_length": "09",
+						"is_Mandatory": false
+					},
+                    {
+						"field_Tag": "15",
+                        "Length_type": "V",
+						"Character_type": "N",
+						"Max_length": "03",
+						"is_Mandatory": false
+					},
+                    {
+						"field_Tag": "16",
+                        "Length_type": "F",
+						"Character_type": "A/N",
+						"Max_length": "10",
+						"is_Mandatory": false
+					},
+                    {
+						"field_Tag": "17",
+                        "Length_type": "V",
+						"Character_type": "A/N",
+						"Max_length": "16",
+						"is_Mandatory": false
+					},
+                    {
+						"field_Tag": "18",
+                        "Length_type": "V",
+						"Character_type": "P",
+						"Max_length": "25",
+						"is_Mandatory": false
+					},
+                    {
+						"field_Tag": "19",
+                        "Length_type": "F",
+						"Character_type": "N",
+						"Max_length": "02",
+						"is_Mandatory": false
+					},
+                    {
+						"field_Tag": "20",
+                        "Length_type": "F",
+						"Character_type": "N",
+						"Max_length": "01",
+						"is_Mandatory": false
+					},
+                    {
+						"field_Tag": "21",
+                        "Length_type": "F",
+						"Character_type": "N",
+						"Max_length": "02",
+						"is_Mandatory": false
+					},
+                    {
+						"field_Tag": "22",
+                        "Length_type": "F",
+						"Character_type": "N",
+						"Max_length": "02",
+						"is_Mandatory": false
+					},
+                    {
+						"field_Tag": "26",
+                        "Length_type": "F",
+						"Character_type": "N",
+						"Max_length": "02",
+						"is_Mandatory": false
+					},
+                    {
+						"field_Tag": "34",
+                        "Length_type": "V",
+						"Character_type": "N",
+						"Max_length": "09",
+						"is_Mandatory": false
+					},
+                    {
+						"field_Tag": "35",
+                        "Length_type": "F",
+						"Character_type": "N",
+						"Max_length": "02",
+						"is_Mandatory": false
+					},
+                    {
+						"field_Tag": "36",
+                        "Length_type": "V",
+						"Character_type": "N",
+						"Max_length": "09",
+						"is_Mandatory": false
+					},
+                    {
+						"field_Tag": "37",
+                        "Length_type": "V",
+						"Character_type": "N",
+						"Max_length": "09",
+						"is_Mandatory": false
+					},
+                    {
+						"field_Tag": "38",
+                        "Length_type": "V",
+						"Character_type": "D",
+						"Max_length": "08",
+						"is_Mandatory": false
+					},
+                    {
+						"field_Tag": "39",
+                        "Length_type": "V",
+						"Character_type": "N",
+						"Max_length": "03",
+						"is_Mandatory": false
+					},
+                    {
+						"field_Tag": "40",
+                        "Length_type": "V",
+						"Character_type": "N",
+						"Max_length": "09",
+						"is_Mandatory": false
+					},
+                    {
+						"field_Tag": "41",
+                        "Length_type": "V",
+						"Character_type": "N",
+						"Max_length": "09",
+						"is_Mandatory": false
+					},
+                    {
+						"field_Tag": "42",
+                        "Length_type": "V",
+						"Character_type": "N",
+						"Max_length": "09",
+						"is_Mandatory": false
+					},
+                    {
+						"field_Tag": "43",
+                        "Length_type": "V",
+						"Character_type": "N",
+						"Max_length": "09",
+						"is_Mandatory": false
+					},
+                    {
+						"field_Tag": "44",
+                        "Length_type": "F",
+						"Character_type": "N",
+						"Max_length": "02",
+						"is_Mandatory": false
+					},
+                    {
+						"field_Tag": "45",
+                        "Length_type": "V",
+						"Character_type": "N",
+						"Max_length": "09",
+						"is_Mandatory": false
+					},
+                    {
+						"field_Tag": "46",
+                        "Length_type": "F",
+						"Character_type": "N",
+						"Max_length": "02",
+						"is_Mandatory": false
+					},
+                    {
+						"field_Tag": "47",
+                        "Length_type": "V",
+						"Character_type": "N",
+						"Max_length": "09",
+						"is_Mandatory": false
+					},
+                    {
+						"field_Tag": "48",
+                        "Length_type": "F",
+						"Character_type": "A",
+						"Max_length": "01",
+						"is_Mandatory": false
+					},
+                    {
+						"field_Tag": "49",
+                        "Length_type": "F",
+						"Character_type": "A",
+						"Max_length": "01",
+						"is_Mandatory": false
+					}
+                				]
+			},
+            "TH":{
+                "fieldTag": "TH",
+				"IsMandatorySegment": false,
+				"Field_Max_length": "03",
+				"Field_Character_length": "A/N",
+				"fieldTagValues": [
+					"H01-H35"
+				],
+				"MandatorySubFieldTags": [
+					"01",
+					"02"
+				],
+				"Non-MandatorySubFieldTags": [
+					"03",
+					"04",
+					"05",
+					"06"
+				],
+				"NextSegmentName": [
+					"ES"
+				],
+                "SubFieldTags": [
+					{
+						"field_Tag": "01",
+						"Length_type": "F",
+						"Character_type": "N",
+						"Max_length": "08",
+						"is_Mandatory": true
+					},
+                    {
+						"field_Tag": "02",
+						"Length_type": "F",
+						"Character_type": "P",
+						"Max_length": "03",
+						"is_Mandatory": true
+					},
+                    {
+                        "field_Tag": "03",
+						"Length_type": "V",
+						"Character_type": "N",
+						"Max_length": "09",
+						"is_Mandatory": false
+                    },
+                    {
+                        "field_Tag": "04",
+						"Length_type": "V",
+						"Character_type": "N",
+						"Max_length": "09",
+						"is_Mandatory": false
+                    },
+                    {
+                        "field_Tag": "05",
+						"Length_type": "V",
+						"Character_type": "N",
+						"Max_length": "09",
+						"is_Mandatory": false
+                    },
+                    {
+                        "field_Tag": "06",
+						"Length_type": "V",
+						"Character_type": "N",
+						"Max_length": "09",
+						"is_Mandatory": false
+                    }
+                ]
+            }
+		}
+	]
+}

@@ -1,0 +1,273 @@
+C:\NG_Git
+cd C:\NG_Git\apps\apache-maven-3.9.8\bin
+set JAVA_HOME=C:\NG_Git\zulu17.52.17-ca-jdk17.0.12-win_x64
+set MAVEN_OPTS=-Xmx512m -XX:MaxMetaspaceSize=1024m -Djavax.net.ssl.trustStore=C:/NG_Git/zulu17.52.17-ca-jdk17.0.12-win_x64/lib/security/cacerts
+set PATH=%JAVA_HOME%\bin;%PATH%
+
+===============================NG Core Build========================================================================================================================
+mvn -nsu -Dmaven.test.skip clean install -T4 -f C:\NG_Git\NGCODE\58.1\nextgen_cbwebapp_core\CBWEBAPP\NextGenCore-Shared\pom.xml
+mvn -nsu -Dmaven.test.skip clean install -T4 -f C:\NG_Git\NGCODE\58.1\nextgen_cbwebapp_core\CBWEBAPP\NextGenCore-Shared\pom-all-shared.xml
+mvn -nsu -Dmaven.test.skip clean install -T4 -f C:\NG_Git\NGCODE\58.1\nextgen_cbaccmtch_core\CBACCMTCH\NextGenCoreAccuMatch\pom.xml
+mvn -nsu -Dmaven.test.skip clean install -T4 -f C:\NG_Git\NGCODE\58.1\nextgen_cbaccmtch_core\CBACCMTCH\NextGenCoreAccuMatch\pom-all-accumatch.xml
+mvn -nsu -Dmaven.test.skip clean install -T4 -f C:\NG_Git\NGCODE\58.1\nextgen_cbwebapp_core\CBWEBAPP\NextGenCore\pom.xml
+mvn -nsu -Dmaven.test.skip clean install -T4 -f C:\NG_Git\NGCODE\58.1\nextgen_cbwebapp_core\CBWEBAPP\NextGenCore\pom-all-core.xml
+mvn -nsu -Dmaven.test.skip clean install -T4 -f C:\NG_Git\NGCODE\58.1\nextgen_cbwebapp_core\CBWEBAPP\NextGenCore-Implementation\pom.xml
+mvn -nsu -Dmaven.test.skip clean install -T4 -f C:\NG_Git\NGCODE\58.1\nextgen_cbwebapp_core\CBWEBAPP\NextGen-GVAP-Services\pom.xml
+mvn -nsu -Dmaven.test.skip clean install -T4 -f C:\NG_Git\NGCODE\58.1\nextgen_cbwebapp_core\CBWEBAPP\NextGenCore\NextGenCore-Service\nextgen-core-services-file-tracking-scheduler\pom.xml
+mvn -nsu -Dmaven.test.skip clean install -T4 -f C:\NG_Git\NGCODE\58.1\nextgen_cbwebapp_core\CBWEBAPP\NextGen-Web\pom.xml
+mvn -nsu -Dmaven.test.skip clean install -T4 -f C:\NG_Git\NGCODE\58.1\nextgen_cbwebapp_core\CBWEBAPP\NextGen-Web\ear-bos-all.xml
+mvn -nsu -Dmaven.test.skip clean install -T4 -f C:\NG_Git\NGCODE\58.1\nextgen_cbwebapp_core\CBWEBAPP\NextGen-Web\ear-client.xml
+mvn -nsu -Dmaven.test.skip clean install -T4 -f C:\NG_Git\NGCODE\58.1\nextgen_cbwebapp_core\CBWEBAPP\NextGen-3rd-Party\nextgen-core-base-sso\pom.xml
+mvn -nsu -Dmaven.test.skip clean install -T4 -f C:\NG_Git\NGCODE\58.1\nextgen_cbinfomgmt_core\CBINFOMGMT\NextGenIMS\pom.xml
+mvn -nsu -Dmaven.test.skip clean install -T4 -f C:\NG_Git\NGCODE\58.1\nextgen_cbinfomgmt_core\CBINFOMGMT\NextGenCoreIMS\pom.xml
+mvn -nsu -Dmaven.test.skip clean install -T4 -f C:\NG_Git\NGCODE\58.1\nextgen_cbinfomgmt_core\CBINFOMGMT\NextGenIMSBridge\nextgen-core-ims-bridge\pom.xml
+mvn -nsu -Dmaven.test.skip clean install -T4 -f C:\NG_Git\NGCODE\58.1\nextgen_cbwebapp_core\CBWEBAPP\NextGen-3rd-Party\nextgen-ims-loading\pom.xml
+mvn -nsu -Dmaven.test.skip clean install -T4 -f C:\NG_Git\NGCODE\58.1\nextgen_cbwebapp_core\CBWEBAPP\NextGenTestApp\pom.xml
+mvn -nsu -Dmaven.test.skip clean install -T4 -f C:\NG_Git\NGCODE\58.1\nextgen_cbinfomgmt_core\CBINFOMGMT\NextGenIMS\ims-etl-package.xml
+mvn -nsu -Dmaven.test.skip clean install -T4 -f C:\NG_Git\NGCODE\58.1\nextgen_cbinfomgmt_core\CBINFOMGMT\NextGenIMS\ims-plugins-package.xml
+
+==============================NG India Build=========================================================================================================================
+mvn -nsu -Dmaven.test.skip clean install -T4 -f C:\NG_Git\NGCODE\58.1\nextgen_cbaccmtch_in\CBACCMTCH\NextGenAccuMatchInd\pom.xml
+mvn -nsu -Dmaven.test.skip clean install -T4 -f C:\NG_Git\NGCODE\58.1\nextgen_cbwebapp_in\NextGenInd\pom.xml
+mvn -nsu -Dmaven.test.skip clean install -T4 -f C:\NG_Git\NGCODE\58.1\nextgen_cbwebapp_in\NextGenInd\NextGenInd-Model\pom.xml
+mvn -nsu -Dmaven.test.skip clean install -T4 -f C:\NG_Git\NGCODE\58.1\nextgen_cbinfomgmt_in\CBINFOMGMT\NextGenIndIMS\pom.xml
+mvn -nsu -Dmaven.test.skip clean install -T4 -f C:\NG_Git\NGCODE\58.1\nextgen_cbinfomgmt_in\CBINFOMGMT\NextGenIMS\pom.xml
+mvn -nsu -Dmaven.test.skip clean install -T4 -f C:\NG_Git\NGCODE\58.1\nextgen_cbwebapp_in\NextGenInd-Web\pom.xml
+mvn -nsu -Dmaven.test.skip clean install -T4 -f C:\NG_Git\NGCODE\58.1\nextgen_cbwebapp_in\NextGenInd-Web\ear-ind-bos-all.xml
+
+===============================Custom Jar Build========================================================================================================================
+
+mvn -nsu -Dmaven.test.skip clean install -T4 -f C:\NG_Git\NGCODE\58.1\nextgen_cbwebapp_core\CBWEBAPP\NextGenCore\NextGenCore-DataServices\nextgen-core-data-services-datatracking\pom.xml
+
+mvn -nsu -Dmaven.test.skip clean install -T4 -f C:\NG_Git\NGCODE\58.1\nextgen_cbwebapp_core\CBWEBAPP\NextGenCore\NextGenCore-Model\nextgen-core-model-data-tracking\pom.xml
+
+mvn -nsu -Dmaven.test.skip clean install -T4 -f C:\NG_Git\NGCODE\58.1\nextgen_cbwebapp_in\NextGenInd\NextGenInd-Service\nextgen-ind-services-data-tracking\pom.xml
+
+mvn -nsu -Dmaven.test.skip clean install -T4 -f C:\NG_Git\NGCODE\58.1\nextgen_cbwebapp_in\NextGenInd\NextGenInd-Service\nextgen-ind-services-validation\pom.xml
+
+mvn -nsu -Dmaven.test.skip clean install -T4 -f  C:\NG_Git\NGCODE\58.1\nextgen_cbwebapp_core\CBWEBAPP\NextGenCore\NextGenCore-DataServices\nextgen-core-data-services-bos-datatracking\pom.xml
+
+mvn -nsu -Dmaven.test.skip clean install -T4 -f J:\NGCODE\58.1\nextgen_cbinfomgmt_in\CBINFOMGMT\NextGenIndIMS\NextGenIndIMS-Services\nextgen-ind-ims-services-loading\pom.xml
+
+mvn -nsu -Dmaven.test.skip clean install -T4 -f J:\NGCODE\58.1\nextgen_cbwebapp_core\CBWEBAPP\NextGenCore-Shared\NextGenCoreShared-Commons\nextgen-core-commons\pom.xml
+
+mvn -nsu -Dmaven.test.skip clean install -T4 -f  C:\NG_Git\NGCODE\58.1\nextgen_cbwebapp_core\CBWEBAPP\NextGenCore-Shared\NextGenCoreShared-Config\nextgen-core-config-base\pom.xml
+
+mvn -nsu -Dmaven.test.skip clean install -T4 -f C:\NG_Git\eclipse-workspace\spark-pre-dp-record-count\pom.xml
+
+mvn -nsu -Dmaven.test.skip clean package -T4 -f C:\NG_Git\intelliJ-workspace\oxygen-validation-dev-java17\pom.xml
+
+mvn -nsu -Dmaven.test.skip clean package -T4 -f D:\intelliJ_Workspace\experian-prime-ingest\pom.xml
+
+From Root Directory = mvn clean package -pl .\experian-prime-ingest-core\ -am
+ 
+spark-submit --class com.experian.ind.nextgen.fileinvestigation.FileInvestigator --master local[*] .\experian-prime-ingest-core\target\experian-prime-ingest-core-1.0-SNAPSHOT-jar-with-dependencies.jar
+
+spark-submit --class com.experian.ind.nextgen.filevalidation.FileValidator --master local[*] .\experian-prime-ingest-core\target\experian-prime-ingest-core-1.0-SNAPSHOT-jar-with-dependencies.jar
+
+
+
+spark-submit --master local --properties-file C:\NG_Git\intelliJ-workspace\oxygen-validation-dev-java17\src\main\resources\local\spark-local.conf --conf spark.driver.host=127.0.0.1 --class com.experian.edf.oxygen.validation.app.SparkValidationApp target/oxygen-validation-innersource-1.0-jar-with-dependencies.jar "local/env-local.conf" "local/validation-application-local.conf" "local/spark-local.conf"
+
+spark-submit --master local --properties-file C:\NG_Git\intelliJ-workspace\oxygen-validation-dev-java17\src\main\resources\local\spark-local.conf --conf spark.driver.host=127.0.0.1 --class com.experian.edf.oxygen.validation.app.SparkValidationApp C:\NG_Git\intelliJ-workspace\oxygen-validation-dev-java17\target\oxygen-validation-innersource-1.0-jar-with-dependencies.jar
+
+mvn versions:use-latest-releases
+mvn versions:update-properties
+
+
+===============================Patching custom jars in WAR file========================================================================================================================
+Dev ETL(DPDL) server ::
+
+sudo su - sl000cm
+
+cd /apps/data/Kushal
+
+rm -rf WEB-INF
+
+unzip nextgen-ind-ims-loading-0.58.1-SNAPSHOT.war WEB-INF/lib/nextgen-core-data-services-datatracking-1.6.0.28.jar
+cp nextgen-core-data-services-datatracking-1.6.0.28.jar WEB-INF/lib/
+zip nextgen-ind-ims-loading-0.58.1-SNAPSHOT.war WEB-INF/lib/nextgen-core-data-services-datatracking-1.6.0.28.jar
+
+rm -rf WEB-INF
+
+unzip nextgen-ind-ims-loading-0.58.1-SNAPSHOT.war WEB-INF/lib/nextgen-core-model-data-tracking-1.6.0.28.jar
+cp nextgen-core-model-data-tracking-1.6.0.28.jar WEB-INF/lib/
+zip nextgen-ind-ims-loading-0.58.1-SNAPSHOT.war WEB-INF/lib/nextgen-core-model-data-tracking-1.6.0.28.jar
+
+rm -rf WEB-INF
+
+unzip nextgen-ind-ims-loading-0.58.1-SNAPSHOT.war WEB-INF/lib/nextgen-core-commons-1.6.0.28.jar
+cp nextgen-core-commons-1.6.0.28.jar WEB-INF/lib/
+zip nextgen-ind-ims-loading-0.58.1-SNAPSHOT.war WEB-INF/lib/nextgen-core-commons-1.6.0.28.jar
+
+rm -rf WEB-INF
+
+unzip nextgen-ind-ims-loading-0.58.1-SNAPSHOT.war WEB-INF/lib/nextgen-core-config-base-1.6.0.28.jar
+cp nextgen-core-config-base-1.6.0.28.jar WEB-INF/lib/
+zip nextgen-ind-ims-loading-0.58.1-SNAPSHOT.war WEB-INF/lib/nextgen-core-config-base-1.6.0.28.jar
+
+rm -rf WEB-INF
+
+unzip nextgen-ind-ims-loading-0.58.1-SNAPSHOT.war WEB-INF/lib/nextgen-ind-services-data-tracking-0.58.1-SNAPSHOT.jar
+cp nextgen-ind-services-data-tracking-0.58.1-SNAPSHOT.jar WEB-INF/lib/
+zip nextgen-ind-ims-loading-0.58.1-SNAPSHOT.war WEB-INF/lib/nextgen-ind-services-data-tracking-0.58.1-SNAPSHOT.jar
+
+rm -rf WEB-INF
+
+unzip nextgen-ind-ims-loading-0.58.1-SNAPSHOT.war WEB-INF/lib/nextgen-ind-ims-services-loading-0.58.1-SNAPSHOT.jar
+cp nextgen-ind-ims-services-loading-0.58.1-SNAPSHOT.jar WEB-INF/lib/
+zip nextgen-ind-ims-loading-0.58.1-SNAPSHOT.war WEB-INF/lib/nextgen-ind-ims-services-loading-0.58.1-SNAPSHOT.jar
+
+rm -rf WEB-INF
+
+
+cp nextgen-ind-ims-loading-0.58.1-SNAPSHOT.war /apps/server/ims/standalone/deployments/
+
+cp nextgen-core-data-services-datatracking-1.6.0.28.jar /apps/nextgen/ims/custom/lib
+
+cp nextgen-core-model-data-tracking-1.6.0.28.jar /apps/nextgen/ims/custom/lib
+
+cp nextgen-core-commons-1.6.0.28.jar /apps/nextgen/ims/custom/lib
+
+cp nextgen-core-config-base-1.6.0.28.jar /apps/nextgen/ims/custom/lib
+
+cp nextgen-ind-services-data-tracking-0.58.1-SNAPSHOT.jar /apps/nextgen/ims/custom/lib
+
+cp nextgen-ind-ims-services-loading-0.58.1-SNAPSHOT.jar /apps/nextgen/ims/custom/lib
+
+============================Patching custom jars in EAR file===========================================================================================================================
+Dev NG Application(PDS-BOS) Server :
+
+sudo su - sl000cm
+
+cd /apps/nextgen/Kushal
+
+unzip nextgen-ind-bos-0.58.1-SNAPSHOT.ear lib/nextgen-core-commons-1.6.0.28.jar
+cp nextgen-core-commons-1.6.0.28.jar lib/
+zip nextgen-ind-bos-0.58.1-SNAPSHOT.ear lib/nextgen-core-commons-1.6.0.28.jar
+
+rm -rf lib
+
+unzip nextgen-ind-bos-0.58.1-SNAPSHOT.ear lib/nextgen-core-config-base-1.6.0.28.jar
+cp nextgen-core-config-base-1.6.0.28.jar lib/
+zip nextgen-ind-bos-0.58.1-SNAPSHOT.ear lib/nextgen-core-config-base-1.6.0.28.jar
+
+rm -rf lib
+
+cp nextgen-ind-bos-0.58.1-SNAPSHOT.ear /apps/server/pds-bos/standalone/deployments/
+
+=============================Housekeeping and AccountMerge==========================================================================================================================
+
+cp housekeepingBackground.sh /apps/nextgen/ims/custom/etl/scripts
+
+cp housekeeping.sh /apps/nextgen/ims/custom/etl/scripts
+
+sudo su - sl000cm
+
+cp apps/data/Kushal/workMultiAccountMerge.csv /nextgen_etl/accountmerge_inbox
+
+cp apps/data/Kushal/merge.csv /nextgen_etl/accountmerge_inbox
+
+cd /apps/nextgen/ims/custom/etl/scripts/
+
+./accountMergeCsvMulti.sh /nextgen_etl/accountmerge_inbox/merge.csv
+
+=======================================================================================================================================================
+
+import org.apache.spark.sql.SparkSession
+import scala.util.matching.Regex
+import io.circe._
+import io.circe.parser._
+
+object SparkFlatFileValidator {
+
+  // Extract segment field schema from JSON
+  def extractSegmentFieldLengths(jsonStr: String): Map[String, List[(String, Int)]] = {
+    val parsed = parse(jsonStr).getOrElse(Json.Null)
+    val cursor = parsed.hcursor
+    val fieldDetailsJson = cursor.downField("Field_Details").values.getOrElse(Vector.empty)
+
+    fieldDetailsJson.flatMap { segmentJson =>
+      val obj = segmentJson.asObject.get
+      obj.toMap.map { case (segmentName, segmentData) =>
+        val subfields = segmentData.hcursor.downField("SubFieldTags").values.getOrElse(Vector.empty)
+        val fieldLengths = subfields.flatMap { sf =>
+          val sfCursor = sf.hcursor
+          for {
+            tag <- sfCursor.get[String]("field_Tag").toOption
+            length <- sfCursor.get[String]("Max_length").toOption
+          } yield (tag, length.toInt)
+        }.toList
+        (segmentName, fieldLengths)
+      }
+    }.toMap
+  }
+
+  // Validate a single segment's fields
+  def validateSegment(segmentCode: String, data: String, fieldDefs: List[(String, Int)]): (Boolean, List[String]) = {
+    var index = 0
+    var valid = true
+    val messages = scala.collection.mutable.ListBuffer[String]()
+
+    for ((field, length) <- fieldDefs) {
+      if (index + length <= data.length) {
+        val value = data.substring(index, index + length)
+        messages += s"✅ [$segmentCode] Field $field: $value"
+        index += length
+      } else {
+        messages += s"❌ [$segmentCode] Field $field: Missing or too short"
+        valid = false
+      }
+    }
+
+    (valid, messages.toList)
+  }
+
+  // Validate a record
+  def validateRecord(record: String, schema: Map[String, List[(String, Int)]]): List[String] = {
+    val segmentPattern: Regex = """([A-Z]{2}\d{2})(.*?)((?=[A-Z]{2}\d{2})|$)""".r
+    val matches = segmentPattern.findAllMatchIn(record).toList
+    val resultMessages = scala.collection.mutable.ListBuffer[String]()
+
+    matches.foreach { m =>
+      val segmentCode = m.group(1)
+      val segmentBody = m.group(2)
+
+      schema.get(segmentCode.take(2)) match {
+        case Some(fields) =>
+          val (isValid, messages) = validateSegment(segmentCode, segmentBody, fields)
+          resultMessages ++= messages
+          resultMessages += (if (isValid) s"✔️ Segment $segmentCode VALID\n" else s"❌ Segment $segmentCode INVALID\n")
+        case None =>
+          resultMessages += s"⚠️ Unknown segment: $segmentCode"
+      }
+    }
+
+    resultMessages.toList
+  }
+
+  def main(args: Array[String]): Unit = {
+    val spark = SparkSession.builder()
+      .appName("SparkFlatFileValidator")
+      .master("local[*]")
+      .getOrCreate()
+
+    import spark.implicits._
+
+    // Load JSON schema
+    val schemaJson = scala.io.Source.fromFile("CTUDF20.json").mkString
+    val schemaMap = extractSegmentFieldLengths(schemaJson)
+
+    // Load raw file (1 line)
+    val rawData = spark.read.textFile("data.txt").collect().mkString.replaceAll("\n", "")
+    val recordRDD = spark.sparkContext.parallelize(rawData.split("\\*\\*").filter(_.nonEmpty))
+
+    // Run validation
+    val validationResults = recordRDD.flatMap(record => validateRecord(record, schemaMap))
+
+    println("✅ Validation Output:")
+    validationResults.collect().foreach(println)
+
+    spark.stop()
+  }
+}
