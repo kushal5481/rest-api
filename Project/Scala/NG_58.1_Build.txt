@@ -57,7 +57,7 @@ mvn -nsu -Dmaven.test.skip clean install -T4 -f C:\NG_Git\eclipse-workspace\spar
 
 mvn -nsu -Dmaven.test.skip clean package -T4 -f C:\NG_Git\intelliJ-workspace\oxygen-validation-dev-java17\pom.xml
 
-mvn -nsu -Dmaven.test.skip clean package -T4 -f C:\NG_Git\intelliJ-workspace\experian-prime-ingest\pom.xml
+mvn -nsu -Dmaven.test.skip clean package -T4 -f D:\intelliJ_Workspace\experian-prime-ingest\pom.xml
 
 From Root Directory = mvn clean package -pl .\experian-prime-ingest-core\ -am
  
@@ -173,3 +173,101 @@ cd /apps/nextgen/ims/custom/etl/scripts/
 ./accountMergeCsvMulti.sh /nextgen_etl/accountmerge_inbox/merge.csv
 
 =======================================================================================================================================================
+
+import org.apache.spark.sql.SparkSession
+import scala.util.matching.Regex
+import io.circe._
+import io.circe.parser._
+
+object SparkFlatFileValidator {
+
+  // Extract segment field schema from JSON
+  def extractSegmentFieldLengths(jsonStr: String): Map[String, List[(String, Int)]] = {
+    val parsed = parse(jsonStr).getOrElse(Json.Null)
+    val cursor = parsed.hcursor
+    val fieldDetailsJson = cursor.downField("Field_Details").values.getOrElse(Vector.empty)
+
+    fieldDetailsJson.flatMap { segmentJson =>
+      val obj = segmentJson.asObject.get
+      obj.toMap.map { case (segmentName, segmentData) =>
+        val subfields = segmentData.hcursor.downField("SubFieldTags").values.getOrElse(Vector.empty)
+        val fieldLengths = subfields.flatMap { sf =>
+          val sfCursor = sf.hcursor
+          for {
+            tag <- sfCursor.get[String]("field_Tag").toOption
+            length <- sfCursor.get[String]("Max_length").toOption
+          } yield (tag, length.toInt)
+        }.toList
+        (segmentName, fieldLengths)
+      }
+    }.toMap
+  }
+
+  // Validate a single segment's fields
+  def validateSegment(segmentCode: String, data: String, fieldDefs: List[(String, Int)]): (Boolean, List[String]) = {
+    var index = 0
+    var valid = true
+    val messages = scala.collection.mutable.ListBuffer[String]()
+
+    for ((field, length) <- fieldDefs) {
+      if (index + length <= data.length) {
+        val value = data.substring(index, index + length)
+        messages += s"✅ [$segmentCode] Field $field: $value"
+        index += length
+      } else {
+        messages += s"❌ [$segmentCode] Field $field: Missing or too short"
+        valid = false
+      }
+    }
+
+    (valid, messages.toList)
+  }
+
+  // Validate a record
+  def validateRecord(record: String, schema: Map[String, List[(String, Int)]]): List[String] = {
+    val segmentPattern: Regex = """([A-Z]{2}\d{2})(.*?)((?=[A-Z]{2}\d{2})|$)""".r
+    val matches = segmentPattern.findAllMatchIn(record).toList
+    val resultMessages = scala.collection.mutable.ListBuffer[String]()
+
+    matches.foreach { m =>
+      val segmentCode = m.group(1)
+      val segmentBody = m.group(2)
+
+      schema.get(segmentCode.take(2)) match {
+        case Some(fields) =>
+          val (isValid, messages) = validateSegment(segmentCode, segmentBody, fields)
+          resultMessages ++= messages
+          resultMessages += (if (isValid) s"✔️ Segment $segmentCode VALID\n" else s"❌ Segment $segmentCode INVALID\n")
+        case None =>
+          resultMessages += s"⚠️ Unknown segment: $segmentCode"
+      }
+    }
+
+    resultMessages.toList
+  }
+
+  def main(args: Array[String]): Unit = {
+    val spark = SparkSession.builder()
+      .appName("SparkFlatFileValidator")
+      .master("local[*]")
+      .getOrCreate()
+
+    import spark.implicits._
+
+    // Load JSON schema
+    val schemaJson = scala.io.Source.fromFile("CTUDF20.json").mkString
+    val schemaMap = extractSegmentFieldLengths(schemaJson)
+
+    // Load raw file (1 line)
+    val rawData = spark.read.textFile("data.txt").collect().mkString.replaceAll("\n", "")
+    val recordRDD = spark.sparkContext.parallelize(rawData.split("\\*\\*").filter(_.nonEmpty))
+
+    // Run validation
+    val validationResults = recordRDD.flatMap(record => validateRecord(record, schemaMap))
+
+    println("✅ Validation Output:")
+    validationResults.collect().foreach(println)
+
+    spark.stop()
+  }
+}
