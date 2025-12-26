@@ -1,0 +1,107 @@
+[
+    {
+      "metricCode": "NG-C20-1-111111",
+      "MetricTriggerService": "{DYNAMIC_SERVICE_NAME}",
+      "metricName": "FILE",
+      "metricDescription": "{METRIC_DESCRIPTION_DYNAMIC}",
+      "metricParentCode": null
+    },
+    {
+      "metricCode": "NG-C20-3-3333333",
+      "MetricTriggerService": "{DYNAMIC_SERVICE_NAME}",
+      "metricCategory": "RECORDS",
+      "metricDescription": "{METRIC_DESCRIPTION_DYNAMIC}",
+      "metricParentCode": "NG-C20-1-111111"
+    },
+    {
+      "metricCode": "NG-C20-5-5555555",
+      "MetricTriggerService": "{DYNAMIC_SERVICE_NAME}",
+      "metricCategory": "SEGMENTS",
+      "metricDescription": "{METRIC_DESCRIPTION_DYNAMIC}",
+      "metricParentCode": "NG-C20-3-3333333"
+    },
+    {
+      "metricCode": "NG-C20-7-7777777",
+      "MetricTriggerService": "{DYNAMIC_SERVICE_NAME}",
+      "metricName": "FIELDS",
+      "metricDescription": "{METRIC_DESCRIPTION_DYNAMIC}",
+      "metricParentCode": "NG-C20-5-5555555"
+    },
+    {
+      "metricCode": "NG-C20-9-9999999",
+      "MetricTriggerService": "{DYNAMIC_SERVICE_NAME}",
+      "metricName": "BUSINESS VALIDATION",
+      "metricDescription": "{METRIC_DESCRIPTION_DYNAMIC}",
+      "metricParentCode": "NG-C20-7-7777777"
+    },
+    {
+      "metricCode": "NG-C20-1-111112",
+      "MetricTriggerService": "{DYNAMIC_SERVICE_NAME}",
+      "metricName": "FILE ACCEPTED",
+      "metricDescription": "{METRIC_DESCRIPTION_DYNAMIC}",
+      "metricParentCode": "NG-C20-1-111111"
+    },
+    {
+      "metricCode": "NG-C20-1-111113",
+      "MetricTriggerService": "{DYNAMIC_SERVICE_NAME}",
+      "metricName": "FILE REJECTED",
+      "metricDescription": "{METRIC_DESCRIPTION_DYNAMIC}",
+      "metricParentCode": "NG-C20-1-111111"
+    },
+    {
+      "metricCode": "NG-C20-3-3333334",
+      "MetricTriggerService": "{DYNAMIC_SERVICE_NAME}",
+      "metricName": "RECORDS ACCEPTED",
+      "metricDescription": "{METRIC_DESCRIPTION_DYNAMIC}",
+      "metricParentCode": "NG-C20-3-3333333"
+    },
+    {
+      "metricCode": "NG-C20-3-3333335",
+      "MetricTriggerService": "{DYNAMIC_SERVICE_NAME}",
+      "metricName": "RECORDS REJECTED",
+      "metricDescription": "{METRIC_DESCRIPTION_DYNAMIC}",
+      "metricParentCode": "NG-C20-3-3333333"
+    },
+    {
+      "metricCode": "NG-C20-5-5555556",
+      "MetricTriggerService": "{DYNAMIC_SERVICE_NAME}",
+      "metricName": "SEGMENTS ACCEPTED",
+      "metricDescription": "{METRIC_DESCRIPTION_DYNAMIC}",
+      "metricParentCode": "NG-C20-5-5555555"
+    },
+    {
+      "metricCode": "NG-C20-5-5555557",
+      "MetricTriggerService": "{DYNAMIC_SERVICE_NAME}",
+      "metricName": "SEGMENTS REJECTED",
+      "metricDescription": "{METRIC_DESCRIPTION_DYNAMIC}",
+      "metricParentCode": "NG-C20-5-5555555"
+    },
+    {
+      "metricCode": "NG-C20-7-7777778",
+      "MetricTriggerService": "{DYNAMIC_SERVICE_NAME}",
+      "metricName": "FIELDS ACCEPTED",
+      "metricDescription": "{METRIC_DESCRIPTION_DYNAMIC}",
+      "metricParentCode": "NG-C20-7-7777777"
+    },
+    {
+      "metricCode": "NG-C20-7-7777779",
+      "MetricTriggerService": "{DYNAMIC_SERVICE_NAME}",
+      "metricName": "FIELDS REJECTED",
+      "metricDescription": "{METRIC_DESCRIPTION_DYNAMIC}",
+      "metricParentCode": "NG-C20-7-7777777"
+    },
+    {
+      "metricCode": "NG-C20-9-9999991",
+      "MetricTriggerService": "{DYNAMIC_SERVICE_NAME}",
+      "metricName": "BUSINESS VALIDATIONS ACCEPTED",
+      "metricDescription": "{METRIC_DESCRIPTION_DYNAMIC}",
+      "metricParentCode": "NG-C20-9-9999999"
+    },
+    {
+      "metricCode": "NG-C20-9-9999992",
+      "MetricTriggerService": "{DYNAMIC_SERVICE_NAME}",
+      "metricName": "BUSINESS VALIDATIONS REJECTED",
+      "metricDescription": "{METRIC_DESCRIPTION_DYNAMIC}",
+      "metricParentCode": "NG-C20-9-9999999"
+    }
+  ]

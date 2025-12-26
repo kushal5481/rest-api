@@ -1,0 +1,88 @@
+{
+    "parsingRuleDetails": [
+        {
+            "rule_id": "TUDF_01_REPORTING_MEMBER_MANDATORY",
+            "segment": "TUDF",
+            "field_tag": "TUDF.01",
+            "field_name": "Reporting Member / Processor User ID",
+            "rule_type": "STRUCTURAL",
+            "category": "Structural Validation",
+            "condition": "length(trim(TUDF_01_Reporting_Member_Processor_User_ID)) > 0",
+            "severity": "CRITICAL",
+            "priority": 100,
+            "execution_order": 1,
+            "action": "REJECT_FILE",
+            "message": "Reject file if Reporting Member / Processor User ID is missing.",
+            "rule_version": 1,
+            "spec_version": "3.73",
+            "spec_date": "2025-04-07",
+            "status": "ACTIVE",
+            "source": [
+                "Uniform-Credit-Reporting-Format-Consumer-Repository_v3.73.pdf"
+            ]
+        },
+        {
+            "rule_id": "PN_01_PN_FIELD_1",
+            "segment": "PN",
+            "field_tag": "PN.01",
+            "field_name": "PN_Field_1",
+            "rule_type": "FIELD",
+            "category": "Field Validation",
+            "condition": "PN_01_PN_Field_1 IS NULL OR length(trim(PN_01_PN_Field_1)) > 0",
+            "severity": "ERROR",
+            "priority": 80,
+            "execution_order": 11,
+            "action": "REJECT_FIELD",
+            "message": "Reject field if PN_Field_1 (PN.01) is invalid.",
+            "rule_version": 1,
+            "spec_version": "3.73",
+            "spec_date": "2025-04-07",
+            "status": "ACTIVE",
+            "source": [
+                "Uniform-Credit-Reporting-Format-Consumer-Repository_v3.73.pdf"
+            ]
+        },
+        {
+            "rule_id": "PN_02_PN_FIELD_2",
+            "segment": "PN",
+            "field_tag": "PN.02",
+            "field_name": "PN_Field_2",
+            "rule_type": "FIELD",
+            "category": "Field Validation",
+            "condition": "PN_02_PN_Field_2 IS NULL OR length(trim(PN_02_PN_Field_2)) > 0",
+            "severity": "ERROR",
+            "priority": 80,
+            "execution_order": 12,
+            "action": "REJECT_FIELD",
+            "message": "Reject field if PN_Field_2 (PN.02) is invalid.",
+            "rule_version": 1,
+            "spec_version": "3.73",
+            "spec_date": "2025-04-07",
+            "status": "ACTIVE",
+            "source": [
+                "Uniform-Credit-Reporting-Format-Consumer-Repository_v3.73.pdf"
+            ]
+        },
+        {
+            "rule_id": "PN_03_PN_FIELD_3",
+            "segment": "PN",
+            "field_tag": "PN.03",
+            "field_name": "PN_Field_3",
+            "rule_type": "FIELD",
+            "category": "Field Validation",
+            "condition": "PN_03_PN_Field_3 IS NULL OR length(trim(PN_03_PN_Field_3)) > 0",
+            "severity": "ERROR",
+            "priority": 80,
+            "execution_order": 13,
+            "action": "REJECT_FIELD",
+            "message": "Reject field if PN_Field_3 (PN.03) is invalid.",
+            "rule_version": 1,
+            "spec_version": "3.73",
+            "spec_date": "2025-04-07",
+            "status": "ACTIVE",
+            "source": [
+                "Uniform-Credit-Reporting-Format-Consumer-Repository_v3.73.pdf"
+            ]
+        }
+    ]
+}

@@ -1,0 +1,38 @@
+[
+    {
+        "fileType": "BTUDF10",
+        "version": "1.0",
+        "format": "FixedLength",
+        "industry": "Commercial",
+        "jsonTemplate": "BTUDF10_FixedLength.json",
+        "templateLocation": "C:/Users/C19269E/Kushal/Workspaces/VSCode/kushal1.0.0/experian-prime-ingest/properties/schemas/parser/commercial/v1.0/FixedLength/version-1.0/",
+        "ruleLocation": "C:/Users/C19269E/Kushal/Workspaces/VSCode/kushal1.0.0/experian-prime-ingest/properties/rules/parser/commercial/v1.0/FixedLength/version-1.0/BTUDF10_FixedLength_Rules.json"  
+    },
+    {
+        "fileType": "BTUDF30",
+        "version": "3.0",
+        "format": "FixedLength",
+        "industry": "Commercial",
+        "jsonTemplate": "BTUDF30_FixedLength.json",
+        "templateLocation": "C:/Users/C19269E/Kushal/Workspaces/VSCode/kushal1.0.0/experian-prime-ingest/properties/schemas/parser/commercial/v3.0/FixedLength/version-1.0/",
+        "ruleLocation": "C:/Users/C19269E/Kushal/Workspaces/VSCode/kushal1.0.0/experian-prime-ingest/properties/rules/parser/commercial/v3.0/FixedLength/version-1.0/BTUDF30_FixedLength_Rules.json"
+    },
+    {
+        "fileType": "BTUDF10",
+        "version": "1.0",
+        "format": "PipeDelimited",
+        "industry": "Commercial",
+        "jsonTemplate": "BTUDF10_PipeDelimited.json",
+        "templateLocation": "C:/Users/C19269E/Kushal/Workspaces/VSCode/kushal1.0.0/experian-prime-ingest/properties/schemas/parser/commercial/v1.0/PipeDelimited/version-1.0/",
+        "ruleLocation": "C:/Users/C19269E/Kushal/Workspaces/VSCode/kushal1.0.0/experian-prime-ingest/properties/rules/parser/commercial/v1.0/PipeDelimited/version-1.0/BTUDF10_PipeDelimited_Rules.json"
+    },
+    {
+        "fileType": "BTUDF30",
+        "version": "3.0",
+        "format": "PipeDelimited",
+        "industry": "Commercial",
+        "jsonTemplate": "BTUDF30_PipeDelimited.json",
+        "templateLocation": "C:/Users/C19269E/Kushal/Workspaces/VSCode/kushal1.0.0/experian-prime-ingest/properties/schemas/parser/commercial/v3.0/PipeDelimited/version-1.0/",
+        "ruleLocation": "C:/Users/C19269E/Kushal/Workspaces/VSCode/kushal1.0.0/experian-prime-ingest/properties/rules/parser/commercial/v3.0/PipeDelimited/version-1.0/BTUDF30_PipeDelimited_Rules.json"
+    }
+]

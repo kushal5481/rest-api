@@ -1,0 +1,9 @@
+[
+    {
+      "metricCode": "NG-COMM-M0001",
+      "MetricTriggerService": "{DYNAMIC_SERVICE_NAME}",
+      "metricName": "FILE",
+      "metricDescription": "Invalid Commercial File",
+      "metricParentCode": null
+    }
+  ]
