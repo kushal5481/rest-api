@@ -7,6 +7,9 @@ import com.experian.ind.prime.ingest.core.Util.parser.commercial.DualLogger
 final class SqlRuleEvaluator(spark: SparkSession) {
   private lazy val logger = DualLogger(getClass)
 
+  private def quoteIdentifier(identifier: String): String =
+    s"`${identifier.replace("`", "``")}`"
+
   /**
    * Check if SQL expression is a top-level statement (SELECT or WITH/CTE)
    */
@@ -53,13 +56,22 @@ final class SqlRuleEvaluator(spark: SparkSession) {
   /**
    * Execute SQL query and return DataFrame
    */
-  private def executeSqlQuery(expr: String, ruleId: String): DataFrame = {
+  private def executeSqlQuery(expr: String, ruleId: String, dfViewForExpression: String): DataFrame = {
     if (isTopLevelStatement(expr)) {
       logger.debug(s"[RULE][$ruleId] Executing as top-level statement (SELECT/WITH)")
       spark.sql(expr)
     } else {
-      logger.debug(s"[RULE][$ruleId] Executing as scalar expression")
-      spark.sql(s"SELECT (${expr}) AS ok")
+      // Spark SQL expression mode: evaluate the boolean expression against the provided view.
+      // This allows rules like: "is_mandatory = false OR length(trim(field_value)) <= max_field_length"
+      // without having to write a full SELECT ... FROM ... statement in rule JSON.
+      val viewName = Option(dfViewForExpression).map(_.trim).getOrElse("")
+      if (viewName.isEmpty) {
+        logger.debug(s"[RULE][$ruleId] Executing as scalar expression (no FROM view provided)")
+        spark.sql(s"SELECT (${expr}) AS ok")
+      } else {
+        logger.debug(s"[RULE][$ruleId] Executing as expression against view='$viewName'")
+        spark.sql(s"SELECT (${expr}) AS ok FROM ${quoteIdentifier(viewName)}")
+      }
     }
   }
 
@@ -75,6 +87,10 @@ final class SqlRuleEvaluator(spark: SparkSession) {
    * Evaluate a SQL rule against a specific DataFrame view.
    * The SQL_expression should return TRUE when the data is valid.
    * Automatically replaces 'df_raw' references with the actual view name for per-record evaluation.
+   *
+   * Additionally supports Spark SQL boolean expressions (non-SELECT/WITH) by evaluating them as:
+   *   SELECT (<expression>) AS ok FROM <dfRawView>
+   * This enables configuration-only rule additions using `SQL_expression` without requiring code changes.
    * 
    * IMPORTANT FOR SEGMENT PARSING RULES:
    * Rules that use LATERAL VIEW POSEXPLODE to parse segments from RawRecord work correctly when
@@ -102,7 +118,7 @@ final class SqlRuleEvaluator(spark: SparkSession) {
       logger.debug(s"[RULE][$ruleId] Full SQL Expression is : $adjustedExpr")
       
       // Execute SQL query
-      val df = executeSqlQuery(adjustedExpr, ruleId)
+      val df = executeSqlQuery(adjustedExpr, ruleId, dfRawView)
       val rows = df.head(1)
 
       if (rows.isEmpty) {

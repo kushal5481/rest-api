@@ -1,14 +1,13 @@
 package com.experian.ind.prime.ingest.core.parser.commercial.engine
 
 import com.experian.ind.prime.ingest.core.Util.parser.commercial.DualLogger
-import com.experian.ind.prime.ingest.core.parser.commercial.rules.{RulesRepository, SqlRuleEvaluator}
+import com.experian.ind.prime.ingest.core.parser.commercial.rules.{RuleEvaluationEngine, RulesRepository}
 import com.experian.ind.prime.ingest.core.parser.commercial.util.{CommercialConstants, CommercialUtility}
 import com.experian.ind.prime.ingest.core.shared_models.PipelineContext
 import com.experian.ind.prime.ingest.core.shared_models.parser_models.commercial.{DF3DtlRejSumm, DF4RecRejSumm, RuleDefinition, Segment}
 import org.apache.spark.sql.functions.{col, lit, lower}
 import org.apache.spark.sql.{DataFrame, Row}
 
-import scala.reflect.runtime.universe._
 import scala.util.control.Breaks.{break, breakable}
 
 final class PipeDelimitedHTParser(context: PipelineContext) {
@@ -17,7 +16,7 @@ final class PipeDelimitedHTParser(context: PipelineContext) {
   import spark.implicits._
 
   private val repository = new RulesRepository(context.spark)
-  private val evaluator = new SqlRuleEvaluator(context.spark)
+  private val evaluationEngine = new RuleEvaluationEngine(context.spark)
 
   /**
    * Safely cache a table if not already cached
@@ -35,36 +34,14 @@ final class PipeDelimitedHTParser(context: PipelineContext) {
    * This makes the code fully configuration-driven based on actual case class structure
    */
   private def fetchSchemaConstraintKeys(context: PipelineContext): Map[String, String] = {
-    try {
-      // Use Scala reflection to get all field names from Segment case class
-      val segmentType = typeOf[Segment]
-      val fieldNames = segmentType.members
-        .collect { case m: TermSymbol if m.isVal => m.name.toString }
-        .toList
-      
-      // Dynamically discover constraint fields by pattern matching (no hardcoding)
-      val mandatoryField = fieldNames.find(_.toLowerCase.contains("ismandatory"))
-      val lengthField = fieldNames.find(_.toLowerCase.contains("maximum_length"))
-      val occurrenceField = fieldNames.find(_.toLowerCase.contains("occurrence"))
-      val delimiterField = fieldNames.find(_.toLowerCase.contains("delimiter_count"))
-      
-      Map(
-        "mandatory" -> mandatoryField.getOrElse(CommercialConstants.SEGEMENT_MANDATORY),
-        "length" -> lengthField.getOrElse(CommercialConstants.SEGMENT_LENGTH),
-        "occurrence" -> occurrenceField.getOrElse(CommercialConstants.SEGMENT_OCCURRENCE),
-        "delimiter_count" -> delimiterField.getOrElse(CommercialConstants.SEGEMENT_DELIMITER_COUNT)
-      )
-    } catch {
-      case ex: Exception =>
-        logger.warn(s"[PipeDelimitedHTParser] [SCHEMA] Failed to dynamically fetch constraint keys: ${ex.getMessage}; using fallback field names")
-        // Fallback to standard field names if reflection fails
-        Map(
-          "mandatory" -> CommercialConstants.SEGEMENT_MANDATORY,
-          "length" -> CommercialConstants.SEGMENT_LENGTH,
-          "occurrence" -> CommercialConstants.SEGMENT_OCCURRENCE,
-          "delimiter_count" -> CommercialConstants.SEGEMENT_DELIMITER_COUNT
-        )
-    }
+    // Using direct constants for simplicity and to avoid reflection, which can be brittle.
+    // The Segment case class structure is stable within this project context.
+    Map(
+      "mandatory" -> CommercialConstants.SEGEMENT_MANDATORY,
+      "length" -> CommercialConstants.SEGMENT_LENGTH,
+      "occurrence" -> CommercialConstants.SEGMENT_OCCURRENCE,
+      "delimiter_count" -> CommercialConstants.SEGEMENT_DELIMITER_COUNT
+    )
   }
 
   /**
@@ -219,7 +196,7 @@ final class PipeDelimitedHTParser(context: PipelineContext) {
       return List.empty[DataFrame]
     }
     
-    logger.info(s"[PipeDelimitedHTParser] [RULES] Loading all active rules (SQL + DSL) from path='${rulesPathTrimmed.get}' for ruleIds=[${ruleIdsTrimmed.mkString(",")}]")
+    logger.info(s"[PipeDelimitedHTParser] [RULES] Loading all active SQL rules from path='${rulesPathTrimmed.get}' for ruleIds=[${ruleIdsTrimmed.mkString(",")}]")
     val rulesDS = repository.loadActiveRules(rulesPathTrimmed.get, ruleIdsTrimmed)
     
     // 3) Evaluate and collect failures
@@ -280,7 +257,7 @@ final class PipeDelimitedHTParser(context: PipelineContext) {
     // Collect rules safely with null/empty checks
     val rulesList: Seq[RuleDefinition] = if (rulesDS != null) {
       val rules = rulesDS.collect().toSeq
-      logger.info(s"[PipeDelimitedHTParser] [RULES] Loaded ${rules.size} active rules (SQL + DSL) from '${rulesPathTrimmed.get}'")
+      logger.info(s"[PipeDelimitedHTParser] [RULES] Loaded ${rules.size} active rules from '${rulesPathTrimmed.get}'")
       rules
     } else {
       logger.warn("[PipeDelimitedHTParser] [RULES] rulesDS is null; no rules to evaluate")
@@ -326,7 +303,7 @@ final class PipeDelimitedHTParser(context: PipelineContext) {
         logger.info(s"[PipeDelimitedHTParser] [RULES] Evaluating ruleId='${rule.rule_id}', name='${rule.rule_name.getOrElse("")}', level='${rule.rule_level.getOrElse("")}'")
         
         try {
-          val passed = evaluator.evaluateOnRaw("df_raw", rule)
+          val passed = evaluationEngine.evaluateRule(rule, "df_raw")
           if (!passed) {
             logger.warn(s"[PipeDelimitedHTParser] [RULES][FAIL] ruleId='${rule.rule_id}', errorCode='${rule.error_code.getOrElse("")}', severity='${rule.severity.getOrElse("")}', action='${rule.rule_action.getOrElse("")}'")
             rejectionCounter += 1  // Increment counter for each rule failure

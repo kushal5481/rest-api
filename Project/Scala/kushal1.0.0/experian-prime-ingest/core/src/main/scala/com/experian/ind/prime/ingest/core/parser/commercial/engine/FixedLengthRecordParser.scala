@@ -1,6 +1,7 @@
 package com.experian.ind.prime.ingest.core.parser.commercial.engine
+
 import com.experian.ind.prime.ingest.core.Util.parser.commercial.DualLogger
-import com.experian.ind.prime.ingest.core.parser.commercial.rules.{RuleContext, RuleEvaluationEngine, RulesRepository, SqlRuleEvaluator}
+import com.experian.ind.prime.ingest.core.parser.commercial.rules.{RuleEvaluationEngine, RulesRepository}
 import com.experian.ind.prime.ingest.core.parser.commercial.util.{CommercialConstants, CommercialUtility}
 import com.experian.ind.prime.ingest.core.shared_models.PipelineContext
 import com.experian.ind.prime.ingest.core.shared_models.parser_models.commercial.RuleDefinition
@@ -63,7 +64,6 @@ private case class FixedLengthRulesMapping(
 class FixedLengthRecordParser(context: PipelineContext) {
   private lazy val logger = DualLogger(getClass)
   private val repository = new RulesRepository(context.spark)
-  private val sqlEvaluator = new SqlRuleEvaluator(context.spark)
   private val evaluationEngine = new RuleEvaluationEngine(context.spark)
 
   /**
@@ -374,66 +374,34 @@ class FixedLengthRecordParser(context: PipelineContext) {
   private def evaluateRulesForRecord(recordId: String, rulesMapping: FixedLengthRulesMapping, rawRecord: String): Option[FixedLengthRuleFailureResult] = {
     import scala.util.control.Breaks._
     
-    // Parse segments and calculate statistics for DSL evaluation
+    // Parse segments for evaluation
     val segmentLines = rawRecord.split("\r?\n").filter(_.trim.nonEmpty)
-    var bs_count = 0
-    var as_count = 0
-    var rs_count = 0
-    var cr_count = 0
-    var gs_count = 0
-    var ss_count = 0
-    var cd_count = 0
-    
-    var bs_pos = Int.MaxValue
-    var as_pos = Int.MaxValue
-    var rs_pos = Int.MaxValue
-    var cr_pos = Int.MaxValue
-    var gs_pos = Int.MaxValue
-    var ss_pos = Int.MaxValue
-    var cd_pos = Int.MaxValue
-    
-    var gs_before_cr_count = 0
-    var first_cr_pos = Int.MaxValue
-    
-    // For fixed-length: Extract segment tag from fixed position (characters 1-2, 0-based indexing)
-    segmentLines.zipWithIndex.foreach { case (segment_line, idx) =>
-      val pos = idx + 1  // 1-based position
-      val segment_tag = if (segment_line.length >= 2) segment_line.substring(0, 2).trim else ""
-      
-      segment_tag match {
-        case "BS" =>
-          bs_count += 1
-          if (bs_pos == Int.MaxValue) bs_pos = pos
-        case "AS" =>
-          as_count += 1
-          if (as_pos == Int.MaxValue) as_pos = pos
-        case "RS" =>
-          rs_count += 1
-          if (rs_pos == Int.MaxValue) rs_pos = pos
-        case "CR" =>
-          cr_count += 1
-          if (cr_pos == Int.MaxValue) {
-            cr_pos = pos
-            first_cr_pos = pos
-          }
-        case "GS" =>
-          gs_count += 1
-          if (gs_pos == Int.MaxValue) gs_pos = pos
-          if (first_cr_pos == Int.MaxValue) {
-            // GS appears before any CR
-            gs_before_cr_count += 1
-          }
-        case "SS" =>
-          ss_count += 1
-          if (ss_pos == Int.MaxValue) ss_pos = pos
-        case "CD" =>
-          cd_count += 1
-          if (cd_pos == Int.MaxValue) cd_pos = pos
-        case _ =>
-      }
+
+    // Actual segment sequence for the record (fixed-length tag is first 2 chars)
+    val segment_sequence: Seq[String] = segmentLines.toSeq.map { segment_line =>
+      if (segment_line.length >= 2) segment_line.substring(0, 2).trim else ""
     }
-    
-    logger.debug(s"[evaluateRulesForRecord] [RECORD=$recordId] Segment statistics: bs_count=$bs_count, as_count=$as_count, rs_count=$rs_count, cr_count=$cr_count, gs_count=$gs_count, ss_count=$ss_count, cd_count=$cd_count, bs_pos=$bs_pos, as_pos=$as_pos, rs_pos=$rs_pos, cr_pos=$cr_pos, gs_pos=$gs_pos, ss_pos=$ss_pos, cd_pos=$cd_pos, gs_before_cr_count=$gs_before_cr_count")
+
+    // === CREATE SEGMENT VIEW FOR SQL RULE EVALUATION ===
+    // This creates a temporary view `record_segments`(pos, tag) for modern, complex SQL-based ordering rules.
+    try {
+      val spark = context.spark
+      import spark.implicits._
+
+      val segmentsWithPos = segment_sequence.zipWithIndex.map { case (tag, idx) => (idx + 1, tag) }
+      if (segmentsWithPos.nonEmpty) {
+        val segmentsDF = segmentsWithPos.toDF("pos", "tag")
+        segmentsDF.createOrReplaceTempView("record_segments")
+        logger.debug(s"[evaluateRulesForRecord] [RECORD=$recordId] Created view 'record_segments' with ${segmentsWithPos.length} rows.")
+      } else {
+        logger.warn(s"[evaluateRulesForRecord] [RECORD=$recordId] No segments found, 'record_segments' view will be empty.")
+        val schema = StructType(Seq(StructField("pos", IntegerType, false), StructField("tag", StringType, false)))
+        spark.createDataFrame(spark.sparkContext.emptyRDD[org.apache.spark.sql.Row], schema).createOrReplaceTempView("record_segments")
+      }
+    } catch {
+      case ex: Throwable =>
+        logger.warn(s"[evaluateRulesForRecord] [RECORD=$recordId] Failed to create 'record_segments' view: ${ex.getMessage}")
+    }
     
     var failureResult: Option[FixedLengthRuleFailureResult] = None
     breakable {
@@ -443,32 +411,9 @@ class FixedLengthRecordParser(context: PipelineContext) {
         rulesMapping.rulesById.get(ruleId) match {
           case Some(rule) =>
             logger.debug(s"[evaluateRulesForRecord] [RECORD=$recordId] Evaluating ruleId='${rule.rule_id}', name='${rule.rule_name.getOrElse("")}'")
-            logger.debug(s"[evaluateRulesForRecord] [RECORD=$recordId][RULE=${rule.rule_id}] Using evaluation method: ${evaluationEngine.getEvaluationMethod(rule)}")
+            logger.debug(s"[evaluateRulesForRecord] [RECORD=$recordId][RULE=${rule.rule_id}] Evaluating rule using SQL engine.")
             
-            // Build context with record-level data including segment statistics
-            val context = RuleContext()
-              .withRecordData(
-                ("record_id", recordId),
-                ("rule_id", ruleId),
-                ("bs_count", bs_count.toString),
-                ("as_count", as_count.toString),
-                ("rs_count", rs_count.toString),
-                ("cr_count", cr_count.toString),
-                ("gs_count", gs_count.toString),
-                ("ss_count", ss_count.toString),
-                ("cd_count", cd_count.toString),
-                ("bs_pos", bs_pos.toString),
-                ("as_pos", as_pos.toString),
-                ("rs_pos", rs_pos.toString),
-                ("cr_pos", cr_pos.toString),
-                ("gs_pos", gs_pos.toString),
-                ("ss_pos", ss_pos.toString),
-                ("cd_pos", cd_pos.toString),
-                ("gs_before_cr_count", gs_before_cr_count.toString)
-              )
-            
-            // Evaluate rule using RuleEvaluationEngine (DSL -> SQL -> PASS fallback strategy)
-            val passed = evaluationEngine.evaluateRecordRule(rule, context, "df_raw_record")
+            val passed = evaluationEngine.evaluateRecordRule(rule, "df_raw_record")
             
             if (!passed) {
               failureResult = Some(FixedLengthRuleFailureResult(
@@ -537,6 +482,15 @@ class FixedLengthRecordParser(context: PipelineContext) {
 
     logger.debug(s"[RECORD=$recordId][SEGMENT=$segmentTag] Segment metadata: name='$segmentName', isMandatory=$isMandatory, maxLength=$maxLength, actualLength=${segmentLine.length}")
 
+    // Create a single-row DataFrame for segment validation and register it as a temporary view.
+    // This view is used by the SQL rule engine to evaluate segment-level rules.
+    val segmentValidationData = Seq(
+      (recordId, segmentTag, segmentLine, isMandatory, maxLength, segmentLine.length)
+    )
+    val segmentValidationDf = spark.createDataFrame(segmentValidationData)
+      .toDF("record_id", "segment_tag", "segment_line", "is_mandatory", "expected_max_length", "actual_length")
+    segmentValidationDf.createOrReplaceTempView("df_segment")
+
     var failureResult: Option[FixedLengthRuleFailureResult] = None
     breakable {
       for (ruleId <- segmentRuleIds) {
@@ -550,25 +504,10 @@ class FixedLengthRecordParser(context: PipelineContext) {
               // Skip this rule for this segment
             } else {
               logger.debug(s"[RECORD=$recordId][SEGMENT=$segmentTag][RULE=$ruleId] Evaluating rule='${rule.rule_name.getOrElse("")}'")
-              logger.debug(s"[RECORD=$recordId][SEGMENT=$segmentTag][RULE=$ruleId] Using evaluation method: ${evaluationEngine.getEvaluationMethod(rule)}")
+              logger.debug(s"[RECORD=$recordId][SEGMENT=$segmentTag][RULE=$ruleId] Evaluating rule using SQL engine.")
 
-              // Build context with segment-level data
-              // For fixed-length, we include segment length and position metadata
-              val context = RuleContext.forSegmentValidation(
-                segmentTag = segmentTag,
-                isMandatory = isMandatory,
-                expectedDelimiterCount = maxLength,  // For fixed-length, use maxLength as reference
-                actualDelimiterCount = segmentLine.length,  // Actual line length
-                segmentLine = segmentLine
-              ).withRecordData(
-                ("record_id", recordId)
-              )
-
-              logger.debug(s"[RECORD=$recordId][SEGMENT=$segmentTag][RULE=$ruleId] Context data: segmentData=${context.getSegmentData}, recordData=${context.getRecordData}")
-
-              // Evaluate rule using RuleEvaluationEngine (DSL -> SQL -> PASS fallback strategy)
-              val passed = evaluationEngine.evaluateSegmentRule(rule, context, "df_segment")
-
+                            // Evaluate rule using RuleEvaluationEngine
+                            val passed = evaluationEngine.evaluateSegmentRule(rule, "df_segment")
               if (!passed) {
                 failureResult = Some(FixedLengthRuleFailureResult(
                   ruleId = rule.rule_id,
@@ -680,7 +619,7 @@ class FixedLengthRecordParser(context: PipelineContext) {
               // Skip this rule for this segment/field
             } else {
               logger.debug(s"[RECORD=$recordId][SEGMENT=$segmentTag][FIELD=$fieldName][RULE=$ruleId] Evaluating rule='${rule.rule_name.getOrElse("")}'")
-              logger.debug(s"[RECORD=$recordId][SEGMENT=$segmentTag][FIELD=$fieldName][RULE=$ruleId] Using evaluation method: ${evaluationEngine.getEvaluationMethod(rule)}")
+              logger.debug(s"[RECORD=$recordId][SEGMENT=$segmentTag][FIELD=$fieldName][RULE=$ruleId] Evaluating rule using SQL engine.")
 
               // Skip field-level rule evaluation if field is not mandatory and rule requires mandatory check
               val ruleType = rule.rule_type.getOrElse("")
@@ -688,23 +627,8 @@ class FixedLengthRecordParser(context: PipelineContext) {
                 logger.debug(s"[RECORD=$recordId][SEGMENT=$segmentTag][FIELD=$fieldName][RULE=$ruleId] Skipping mandatory-type rule for non-mandatory field")
                 // Continue to next rule
               } else {
-                // Build context with field-level data
-                val context = RuleContext.forFieldValidation(
-                  value = fieldValue,
-                  isMandatory = isMandatory,
-                  maxLength = maxLength,
-                  fieldName = fieldName,
-                  fieldTag = segmentTag
-                ).withRecordData(
-                  ("record_id", recordId),
-                  ("field_index", fieldIndex.toString)
-                ).withSegmentData(
-                  ("segment_tag", segmentTag),
-                  ("segment_repeat_id", segmentRepeatId)
-                )
-
-                // Evaluate rule using RuleEvaluationEngine (DSL -> SQL -> PASS fallback strategy)
-                val passed = evaluationEngine.evaluateFieldRule(rule, context, "df_field_value")
+                // Evaluate rule using RuleEvaluationEngine
+                val passed = evaluationEngine.evaluateFieldRule(rule, "df_field_value")
 
                 if (!passed) {
                   failureResult = Some(FixedLengthRuleFailureResult(
@@ -787,6 +711,19 @@ class FixedLengthRecordParser(context: PipelineContext) {
       val rawRecord = row.getAs[String]("RawRecord")
       
       logger.info(s"[parseFile] Processing record: $recordId")
+
+      // Create a single-row df_raw_record view for this record so SQL rules / SQL expressions can run via SqlRuleEvaluator.
+      // (The per-record view is enriched with derived columns inside evaluateRulesForRecord.)
+      try {
+        val one = spark.createDataFrame(
+          java.util.Arrays.asList(row),
+          sourceDF.schema
+        )
+        one.createOrReplaceTempView("df_raw_record")
+      } catch {
+        case ex: Throwable =>
+          logger.warn(s"[parseFile] [RECORD=$recordId] Failed to create df_raw_record view: ${ex.getMessage}")
+      }
       
       // Evaluate record-level rules
       val recordRuleFailure = evaluateRulesForRecord(recordId, rulesMapping, rawRecord)
@@ -996,7 +933,7 @@ class FixedLengthRecordParser(context: PipelineContext) {
     CommercialUtility.writeDataFrame(context, context.parserConfigModel.dataFrames.dataframe2, df2Final)
     
     // --- CLEANUP TEMPORARY VIEWS AND CACHED DATA ---
-    CommercialUtility.cleanupTemporaryViews(spark, List("df_raw_record"))
+    CommercialUtility.cleanupTemporaryViews(spark, List("df_raw_record", "df_field_value", "df_segment"))
     
     df2Final
   }

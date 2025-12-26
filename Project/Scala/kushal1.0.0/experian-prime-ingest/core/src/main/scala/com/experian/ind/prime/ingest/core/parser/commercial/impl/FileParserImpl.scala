@@ -1,7 +1,7 @@
 package com.experian.ind.prime.ingest.core.parser.commercial.impl
 
 import com.experian.ind.prime.ingest.core.Util.parser.commercial.DualLogger
-import com.experian.ind.prime.ingest.core.parser.commercial.engine.{PipeDelimitedHTParser,FixedLengthHTParser,PipeDelimitedRecordParser,FixedLengthRecordParser}
+import com.experian.ind.prime.ingest.core.parser.commercial.engine.{FixedLengthRecordParser, PipeDelimitedRecordParser, FixedLengthHTParser, PipeDelimitedHTParser}
 import com.experian.ind.prime.ingest.core.parser.commercial.util.CommercialConstants
 import com.experian.ind.prime.ingest.core.shared_models.PipelineContext
 import org.apache.spark.sql.DataFrame
